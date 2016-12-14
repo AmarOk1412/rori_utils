@@ -32,7 +32,7 @@ impl RoriData {
             \"author\":\"{}\",
             \"content\":\"{}\",
             \"client\":\"{}\",
-            \"type\":\"{}\"
+            \"datatype\":\"{}\"
         }}",
                 self.author,
                 self.content,
