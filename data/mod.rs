@@ -1,5 +1,4 @@
 use rustc_serialize::json::decode;
-use std::io::{Error, ErrorKind};
 
 #[derive(Clone, RustcDecodable, RustcEncodable, Default, PartialEq, Debug)]
 pub struct RoriData {
@@ -21,9 +20,7 @@ impl RoriData {
     }
 
     pub fn from_json(json: String) -> RoriData {
-        let params: RoriData = decode(&json[..])
-            .map_err(|_| Error::new(ErrorKind::InvalidInput, "Failed to decode json."))
-            .unwrap();
+        let params: RoriData = decode(&json[..]).unwrap();
         params
     }
 
