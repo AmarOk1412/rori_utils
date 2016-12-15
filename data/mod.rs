@@ -29,11 +29,11 @@ impl RoriData {
 
     pub fn to_string(&self) -> String {
         format!("{{
-            \"author\":\"{}\",
-            \"content\":\"{}\",
-            \"client\":\"{}\",
-            \"datatype\":\"{}\"
-        }}",
+  \"author\":\"{}\",
+  \"content\":\"{}\",
+  \"client\":\"{}\",
+  \"datatype\":\"{}\"
+}}",
                 self.author,
                 self.content,
                 self.client,
