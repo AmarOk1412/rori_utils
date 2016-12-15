@@ -8,6 +8,7 @@ use std::fs::File;
 use rori_utils::data::RoriData;
 
 // TODO sslstream
+#[allow(dead_code)]
 pub struct RoriClient {
     address: String,
 }
@@ -18,6 +19,7 @@ pub struct ConfigServer {
     pub port: Option<String>,
 }
 
+#[allow(dead_code)]
 impl RoriClient {
     pub fn parse_config(data: String) -> String {
         let params: ConfigServer = decode(&data[..])
