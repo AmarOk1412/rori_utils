@@ -10,7 +10,7 @@ use rori_utils::data::RoriData;
 // TODO sslstream
 #[allow(dead_code)]
 pub struct RoriClient {
-    address: String,
+    pub address: String,
 }
 
 #[derive(Clone, RustcDecodable, RustcEncodable, Default, PartialEq, Debug)]
