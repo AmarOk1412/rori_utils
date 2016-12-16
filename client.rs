@@ -50,11 +50,11 @@ impl RoriClient {
         RoriClient { address: address }
     }
 
-    pub fn send_to_rori(&mut self, author: &str, content: &str) {
+    pub fn send_to_rori(&mut self, author: &str, content: &str, client: &str, datatype: &str) {
         let data_to_send = RoriData::new(String::from(author),
                                          String::from(content),
-                                         String::from("irc_entry_module"),
-                                         String::from("text"));
+                                         String::from(client),
+                                         String::from(datatype));
 
         let mut stream = TcpStream::connect(&*self.address).unwrap();
         let _ = stream.write(data_to_send.to_string().as_bytes());
