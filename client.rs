@@ -56,7 +56,12 @@ impl RoriClient {
                                          String::from(client),
                                          String::from(datatype));
 
-        let mut stream = TcpStream::connect(&*self.address).unwrap();
-        let _ = stream.write(data_to_send.to_string().as_bytes());
+        if let Ok(mut stream) = TcpStream::connect(&*self.address) {
+            let _ = stream.write(data_to_send.to_string().as_bytes());
+        } else {
+            println!("[ERROR]Couldn't connect to RORI at address {}",
+                     &*self.address);
+        }
+
     }
 }
