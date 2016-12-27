@@ -50,7 +50,12 @@ impl RoriClient {
         RoriClient { address: address }
     }
 
-    pub fn send_to_rori(&mut self, author: &str, content: &str, client: &str, datatype: &str) {
+    pub fn send_to_rori(&mut self,
+                        author: &str,
+                        content: &str,
+                        client: &str,
+                        datatype: &str)
+                        -> bool {
         let data_to_send = RoriData::new(String::from(author),
                                          String::from(content),
                                          String::from(client),
@@ -58,9 +63,11 @@ impl RoriClient {
 
         if let Ok(mut stream) = TcpStream::connect(&*self.address) {
             let _ = stream.write(data_to_send.to_string().as_bytes());
+            return true;
         } else {
             println!("[ERROR]Couldn't connect to RORI at address {}",
                      &*self.address);
+            return false;
         }
 
     }
