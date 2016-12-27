@@ -45,7 +45,7 @@ impl RoriClient {
             .expect("failed to read!");
         let address = RoriClient::parse_config(data);
         if address == ":" {
-            println!("Empty config for the connection to the server");
+            error!(target:"RoriClient", "Empty config for the connection to the server");
         }
         RoriClient { address: address }
     }
@@ -65,8 +65,7 @@ impl RoriClient {
             let _ = stream.write(data_to_send.to_string().as_bytes());
             return true;
         } else {
-            println!("[ERROR]Couldn't connect to RORI at address {}",
-                     &*self.address);
+            error!(target:"RoriClient", "Couldn't connect to RORI at address {}", &*self.address);
             return false;
         }
 
