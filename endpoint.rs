@@ -12,6 +12,7 @@ struct Client {
     stream: TcpStream,
 }
 
+#[allow(dead_code)]
 impl Client {
     fn new(stream: TcpStream) -> Client {
         Client { stream: stream }
@@ -54,6 +55,7 @@ pub struct Endpoint {
     compatible_types: String,
 }
 
+#[allow(dead_code)]
 impl Endpoint {
     fn parse_config_server(data: String) -> String {
         let params: ConfigServer = decode(&data[..]).unwrap();
