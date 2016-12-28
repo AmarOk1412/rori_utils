@@ -38,10 +38,20 @@ struct RoriServer {
     rori_port: Option<String>,
 }
 
+#[derive(Clone, RustcDecodable, RustcEncodable, Default, PartialEq, Debug)]
+struct EndpointDetails {
+    owner: Option<String>,
+    name: Option<String>,
+    compatible_types: Option<String>,
+}
+
 pub struct Endpoint {
     address: String,
     rori_address: String,
     pub is_registered: bool,
+    owner: String,
+    name: String,
+    compatible_types: String,
 }
 
 impl Endpoint {
@@ -69,7 +79,8 @@ impl Endpoint {
             .ok()
             .expect("failed to read!");
         let address = Endpoint::parse_config_server(data.clone());
-        let rori_address = Endpoint::parse_config_rori(data);
+        let rori_address = Endpoint::parse_config_rori(data.clone());
+        let details: EndpointDetails = decode(&data[..]).unwrap();
         if address == ":" || rori_address == ":" {
             error!(target:"endpoint", "Empty config for the connection to the server");
         }
@@ -77,6 +88,9 @@ impl Endpoint {
             address: address,
             rori_address: rori_address,
             is_registered: false,
+            owner: details.owner.unwrap_or(String::from("")),
+            name: details.name.unwrap_or(String::from("")),
+            compatible_types: details.compatible_types.unwrap_or(String::from("")),
         }
     }
 
@@ -103,17 +117,15 @@ impl Endpoint {
         drop(listener);
     }
 
-    pub fn register(&mut self, owner: &str, name: &str, compatible_types: &Vec<String>) {
+    pub fn register(&mut self) {
         info!(target:"endpoint", "try to register endpoint");
         // TODO security and if correctly registered
         let rori_address = self.rori_address.clone();
         let address = self.address.clone();
         let mut client = RoriClient { address: rori_address };
         let mut content = String::from(address);
-        for t in compatible_types {
-            content.push_str("|");
-            content.push_str(&*t);
-        }
-        self.is_registered = client.send_to_rori(&owner, &*content, &name, "register");
+        content.push_str("|");
+        content.push_str(&*self.compatible_types);
+        self.is_registered = client.send_to_rori(&self.owner, &*content, &self.name, "register");
     }
 }
