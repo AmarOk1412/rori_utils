@@ -8,6 +8,7 @@ use std::str::from_utf8;
 use std::io::prelude::*;
 use std::fs::File;
 
+#[allow(dead_code)]
 struct Client {
     stream: TcpStream,
 }
@@ -46,6 +47,7 @@ struct EndpointDetails {
     compatible_types: Option<String>,
 }
 
+#[allow(dead_code)]
 pub struct Endpoint {
     address: String,
     rori_address: String,
