@@ -1,13 +1,12 @@
+use openssl::ssl::{Ssl, SslContext, SslMethod, SslStream};
 use std::io::prelude::*;
 use std::net::TcpStream;
+use rori_utils::data::RoriData;
 use rustc_serialize::json::decode;
 use std::io::{Error, ErrorKind};
 use std::path::Path;
 use std::fs::File;
 
-use rori_utils::data::RoriData;
-
-// TODO sslstream
 #[allow(dead_code)]
 pub struct RoriClient {
     pub address: String,
@@ -61,7 +60,11 @@ impl RoriClient {
                                          String::from(client),
                                          String::from(datatype));
 
-        if let Ok(mut stream) = TcpStream::connect(&*self.address) {
+
+        let context = SslContext::new(SslMethod::Tlsv1).unwrap();
+        let ssl = Ssl::new(&context).unwrap();
+        let inner = TcpStream::connect(&*self.address).unwrap();
+        if let Ok(mut stream) = SslStream::connect(ssl, inner) {
             let _ = stream.write(data_to_send.to_string().as_bytes());
             return true;
         } else {
