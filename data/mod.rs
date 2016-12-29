@@ -6,16 +6,23 @@ pub struct RoriData {
     pub content: String,
     pub client: String,
     pub datatype: String,
+    pub secret: String,
 }
 
 #[allow(dead_code)]
 impl RoriData {
-    pub fn new(author: String, content: String, client: String, datatype: String) -> RoriData {
+    pub fn new(author: String,
+               content: String,
+               client: String,
+               datatype: String,
+               secret: String)
+               -> RoriData {
         RoriData {
             author: author.replace("\"", "\\\""),
             content: content.replace("\"", "\\\""),
             client: client.replace("\"", "\\\""),
             datatype: datatype,
+            secret: secret.replace("\"", "\\\""),
         }
     }
 
@@ -29,11 +36,13 @@ impl RoriData {
   \"author\":\"{}\",
   \"content\":\"{}\",
   \"client\":\"{}\",
-  \"datatype\":\"{}\"
+  \"datatype\":\"{}\",
+  \"secret\":\"{}\"
 }}",
                 self.author,
                 self.content,
                 self.client,
-                self.datatype)
+                self.datatype,
+                self.secret)
     }
 }

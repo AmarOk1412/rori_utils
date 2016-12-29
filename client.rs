@@ -54,12 +54,14 @@ impl RoriClient {
                         author: &str,
                         content: &str,
                         client: &str,
-                        datatype: &str)
+                        datatype: &str,
+                        secret: &str)
                         -> bool {
         let data_to_send = RoriData::new(String::from(author),
                                          String::from(content),
                                          String::from(client),
-                                         String::from(datatype));
+                                         String::from(datatype),
+                                         String::from(secret));
 
         if let Ok(mut stream) = TcpStream::connect(&*self.address) {
             let _ = stream.write(data_to_send.to_string().as_bytes());
