@@ -34,6 +34,9 @@ struct EndpointDetails {
 }
 
 #[allow(dead_code)]
+/**
+ * RoriEndpoint is used to handle data from RORI
+ */
 pub struct RoriEndpoint {
     pub address: String,
     pub rori_address: String,
@@ -84,6 +87,11 @@ impl Endpoint for RoriEndpoint {
         info!("Not implemented");
     }
 
+    /**
+     * Get if a data come from an authorized Client
+     * @param data: the data to process
+     * @return true if the data is authorized, false else
+     */
     fn is_authorized(&self, data: RoriData) -> bool {
         let mut hasher = Sha256::new();
         hasher.input_str(&*data.secret);
@@ -97,9 +105,11 @@ impl Endpoint for RoriEndpoint {
         false
     }
 
+    /**
+     * Register an endpoint
+     */
     fn register(&mut self) {
         info!(target:"endpoint", "try to register endpoint");
-        // TODO security and if correctly registered
         let rori_address = self.rori_address.clone();
         let address = self.address.clone();
         let mut client = RoriClient { address: rori_address };

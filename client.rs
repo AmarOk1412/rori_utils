@@ -18,6 +18,9 @@ pub struct ConfigServer {
     pub port: Option<String>,
 }
 
+/**
+ * RORIClient is used to send data to RORI
+ */
 #[allow(dead_code)]
 impl RoriClient {
     pub fn parse_config(data: String) -> String {

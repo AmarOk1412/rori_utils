@@ -1,5 +1,8 @@
 use rustc_serialize::json::decode;
 
+/**
+ * This struct represent the object used to communicate between RORI points
+ */
 #[derive(Clone, RustcDecodable, RustcEncodable, Default, PartialEq, Debug)]
 pub struct RoriData {
     pub author: String,
