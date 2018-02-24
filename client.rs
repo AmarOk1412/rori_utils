@@ -1,4 +1,4 @@
-use openssl::ssl::{Ssl, SslContext, SslMethod, SslStream};
+use openssl::ssl::{Ssl, SslContext, SslMethod};
 use std::io::prelude::*;
 use std::net::TcpStream;
 use rori_utils::data::RoriData;
@@ -66,10 +66,10 @@ impl RoriClient {
                                          String::from(secret));
 
 
-        let context = SslContext::new(SslMethod::Tlsv1).unwrap();
-        let ssl = Ssl::new(&context).unwrap();
+        let context = SslContext::builder(SslMethod::tls()).unwrap();
+        let ssl = context.build();
         let inner = TcpStream::connect(&*self.address).unwrap();
-        if let Ok(mut stream) = SslStream::connect(ssl, inner) {
+        if let Ok(mut stream) = Ssl::new(&ssl).unwrap().connect(inner) {
             let _ = stream.write(data_to_send.to_string().as_bytes());
             return true;
         } else {
